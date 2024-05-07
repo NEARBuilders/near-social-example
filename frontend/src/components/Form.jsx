@@ -4,9 +4,9 @@ export default function Form({ onSubmit, currentAccountId }) {
   return (
     <form onSubmit={onSubmit}>
       <fieldset id="fieldset">
-        <p>Sign the guest book, { currentAccountId }!</p>
+        <p>Make your post, { currentAccountId }!</p>
         <p className="highlight">
-          <label htmlFor="message">Message:</label>
+          <label htmlFor="message">Post</label>
           <input
             autoComplete="off"
             autoFocus
@@ -14,7 +14,7 @@ export default function Form({ onSubmit, currentAccountId }) {
             required
           />
         </p>
-        <p>
+        {/* <p>
           <label htmlFor="donation">Donation (optional):</label>
           <input
             autoComplete="off"
@@ -25,9 +25,9 @@ export default function Form({ onSubmit, currentAccountId }) {
             type="number"
           />
           <span title="NEAR Tokens">Ⓝ</span>
-        </p>
+        </p> */}
         <button type="submit">
-          Sign
+          Post
         </button>
       </fieldset>
     </form>
