@@ -1,40 +1,25 @@
-import PropTypes from 'prop-types';
-
 export default function Form({ onSubmit, currentAccountId }) {
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="p-4 border rounded shadow-sm">
       <fieldset id="fieldset">
-        <p>Make your post, { currentAccountId }!</p>
-        <p className="highlight">
-          <label htmlFor="message">Post</label>
+        <h2 className="mb-4">Profile Example</h2>
+        <p>Check your Near Social Profile, {currentAccountId}!</p>
+        <div className="mb-3">
+          <label htmlFor="message" className="form-label">
+            Profile Name
+          </label>
           <input
             autoComplete="off"
             autoFocus
-            id="message"
+            id="name"
+            className="form-control"
             required
           />
-        </p>
-        {/* <p>
-          <label htmlFor="donation">Donation (optional):</label>
-          <input
-            autoComplete="off"
-            defaultValue={'0'}
-            id="donation"
-            min="0"
-            step="0.01"
-            type="number"
-          />
-          <span title="NEAR Tokens">Ⓝ</span>
-        </p> */}
-        <button type="submit">
-          Post
+        </div>
+        <button type="submit" className="btn btn-primary w-100">
+          Store Name on-chain
         </button>
       </fieldset>
     </form>
   );
 }
-
-Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  currentAccountId: PropTypes.string.isRequired
-};
