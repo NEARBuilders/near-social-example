@@ -12,7 +12,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@builddao/near-social-js": "1.1.0-beta.2",
+    "@builddao/near-social-js": "1.1.0-beta.3",
     "@near-wallet-selector/core": "^8.9.11",
     "@near-wallet-selector/here-wallet": "^8.9.11",
     "@near-wallet-selector/modal-ui": "^8.9.11",

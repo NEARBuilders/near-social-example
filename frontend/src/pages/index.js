@@ -113,7 +113,16 @@ export default function Home() {
           <SignIn />
         )}
       </div>
-      {name && <div>Curren Name: {name}</div>}
+      {name && (
+        <div className="container">
+          <h2 className="my-4">Current Name</h2>
+          <div className={`card mb-3`}>
+            <div className="card-body">
+              <p className="card-text">{name}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
