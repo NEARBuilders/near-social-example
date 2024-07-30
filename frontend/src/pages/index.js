@@ -1,14 +1,11 @@
-import { utils } from "near-api-js";
 import { useState, useEffect, useContext } from "react";
 import { Social } from "@builddao/near-social-js";
 
 import Form from "@/components/Form";
 import SignIn from "@/components/SignIn";
-import Messages from "@/components/Messages";
 import styles from "@/styles/app.module.css";
 
 import { NearContext } from "@/context";
-import { GuestbookNearContract, NetworkId } from "@/config";
 
 export default function Home() {
   const { signedAccountId, wallet } = useContext(NearContext);

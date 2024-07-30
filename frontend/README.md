@@ -1,45 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NEAR Social Example
+
+## Overview
+
+This project is a simple Next.js application that demonstrates interaction with the NEAR Social contract. It allows users to view and update their profile name on the NEAR testnet.
+
+## Features
+
+- Connect to NEAR wallet
+- Retrieve user's profile name from NEAR Social contract
+- Update user's profile name on NEAR Social contract
+- Simple and intuitive user interface
+
+## Prerequisites
+
+- Node.js (version 12 or higher)
+- npm
+- NEAR testnet account
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository:
+   ```
+   git clone https://github.com/NEARBuilders/near-social-example.git
+   cd near-social-example
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. Install dependencies:
+   ```
+   npm install
+   ```
+   (We have been seeing issues with yarn while using limited keys so don't recommend it for the app.)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Run the development server:
+   ```
+   npm run dev
+   ```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Project Structure
 
-## Learn More about NEAR
+- `pages/index.js`: Main component with NEAR Social integration
+- `components/Form.js`: Form component for updating profile name
+- `components/SignIn.js`: Sign-in component for NEAR wallet connection
+- `context/index.js`: NEAR context provider
+- `styles/app.module.css`: Styles for the application
 
-To learn more about NEAR, take a look at the following resources:
+## Key Dependencies
 
-- [NEAR Documentation](https://docs.near.org) - learn about NEAR.
-- [Frontend Docs](https://docs.near.org/build/web3-apps/quickstart) - learn about this example.
+- Next.js
+- @builddao/near-social-js: For interacting with NEAR Social contract
+- near-api-js: For NEAR blockchain interactions
 
-You can check out [the NEAR repository](https://github.com/near) - your feedback and contributions are welcome!
+## NEAR Social Integration
 
-## Learn More about Next.js
+This project uses the `@builddao/near-social-js` library to interact with the NEAR Social contract. Key functions include:
 
-To learn more about Next.js, take a look at the following resources:
+  - `Social.get()`: Retrieves data from the NEAR Social contract, used here to get the user's profile name
+  - `Social.set()`: Updates data on the NEAR Social contract, used here to set the user's profile name
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  These functions are used within the getProfileName() and setProfile() methods in the application to interact with the NEAR Social contract.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+You can deploy this Next.js app using platforms like Vercel or by following the [Next.js deployment documentation](https://nextjs.org/docs/deployment).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Learn More
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To learn more about the technologies used in this project:
+
+- [NEAR Documentation](https://docs.near.org)
+- [NEAR Social Documentation](https://docs.near.org/social)
+- [NEAR Social JS](https://nearbuilders.github.io/near-social-js/)
+- [Next.js Documentation](https://nextjs.org/docs)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License.

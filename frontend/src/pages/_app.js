@@ -5,10 +5,10 @@ import { NearContext } from "@/context";
 import { Navigation } from "@/components/Navigation";
 
 import { Wallet } from "@/wallets/near";
-import { NetworkId, GuestbookNearContract } from "@/config";
+import { NetworkId } from "@/config";
 
 const wallet = new Wallet({
-  createAccessKeyFor: GuestbookNearContract,
+  createAccessKeyFor: "v1.social08.testnet",
   networkId: NetworkId,
 });
 
