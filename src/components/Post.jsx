@@ -32,13 +32,13 @@ const BlockHeight = styled.p`
 `;
 
 export default function Post({ post }) {
-  const parsedContent = JSON.parse(post.content);
+  //const parsedContent = JSON.parse(post.content);
 
   return (
     <PostContainer>
       <Author>{post.accountId}</Author>
       <Content>
-        <ReactMarkdown>{parsedContent.text}</ReactMarkdown>
+        <ReactMarkdown>{post.content}</ReactMarkdown>
       </Content>
       <BlockHeight>Posted at block: {post.blockHeight}</BlockHeight>
     </PostContainer>

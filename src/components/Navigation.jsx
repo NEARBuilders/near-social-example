@@ -1,9 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useContext } from "react";
+import styled from "styled-components";
 
 import { NearContext } from "@/context";
-import NearLogo from "/public/near-logo.svg";
+
+const Title = styled.h4`
+  text-align: center;
+  color: #333;
+`;
 
 export const Navigation = () => {
   const { signedAccountId, wallet } = useContext(NearContext);
@@ -26,14 +31,8 @@ export const Navigation = () => {
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
         <Link href="/" passHref legacyBehavior>
-          <Image
-            priority
-            src={NearLogo}
-            alt="NEAR"
-            width="30"
-            height="24"
-            className="d-inline-block align-text-top"
-          />
+          {/* <Title>New Social</Title> */}
+          New Social
         </Link>
         <div className="navbar-nav pt-1">
           <button className="btn btn-secondary" onClick={action}>

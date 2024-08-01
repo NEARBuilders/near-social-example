@@ -12,7 +12,7 @@ const MainContainer = styled.main`
   font-family: Arial, sans-serif;
 `;
 
-const Title = styled.h1`
+const Title = styled.h2`
   text-align: center;
   color: #333;
 `;
@@ -26,6 +26,7 @@ export default function Home() {
   const { signedAccountId, wallet } = useContext(NearContext);
   const [posts, setPosts] = useState([]);
   const [nearAccount, setNearAccount] = useState(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const client = new Social({
     contractId: SocialContractAccountId,
@@ -48,33 +49,47 @@ export default function Home() {
 
   useEffect(() => {
     fetchPosts();
-  }, [signedAccountId]);
+  }, [signedAccountId, refreshTrigger]);
 
   const fetchPosts = async () => {
-    // First, use index to get the list of posts
-    const indexResult = await client.index({
-      action: "post",
-      key: "main",
-      limit: 20,
-      order: "desc",
-    });
+    try {
+      // First, use index to get the list of posts
+      const indexResult = await client.index({
+        action: "post",
+        key: "main",
+        limit: 20,
+        order: "desc",
+      });
 
-    // Prepare keys for get request
-    const keys = indexResult.map((item) => `${item.accountId}/post/main`);
+      // Fetch each post individually with its specific block height
+      const processedPosts = await Promise.all(
+        indexResult.map(async (item) => {
+          const getResult = await client.get({
+            keys: [`${item.accountId}/post/main`],
+            blockHeight: item.blockHeight,
+          });
 
-    // Now, use get to fetch the actual post content
-    const getResult = await client.get({
-      keys: keys,
-    });
+          const postContent = getResult[item.accountId]?.post?.main;
+          let parsedContent;
+          try {
+            parsedContent = JSON.parse(postContent);
+          } catch (e) {
+            console.error("Error parsing post content:", e);
+            parsedContent = { text: "Error: Could not parse post content" };
+          }
 
-    // Process the results into a more usable format
-    const processedPosts = indexResult.map((item) => ({
-      accountId: item.accountId,
-      blockHeight: item.blockHeight,
-      content: getResult[item.accountId]?.post?.main || "Content not available",
-    }));
+          return {
+            accountId: item.accountId,
+            blockHeight: item.blockHeight,
+            content: parsedContent.text || "No content available",
+          };
+        }),
+      );
 
-    setPosts(processedPosts);
+      setPosts(processedPosts);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
   };
 
   const createPost = async (content) => {
@@ -89,6 +104,14 @@ export default function Home() {
             post: {
               main: content,
             },
+            index: {
+              post: JSON.stringify({
+                key: "main",
+                value: {
+                  type: "md",
+                },
+              }),
+            },
           },
         },
         account: {
@@ -96,13 +119,13 @@ export default function Home() {
           accountID: nearAccount.accountId,
         },
       });
+
       const transformedActions = transformActions(transaction.actions);
-      console.log(transformedActions);
       await wallet.signAndSendTransaction({
         contractId: SocialContractAccountId,
         actions: transformedActions,
       });
-      fetchPosts(); // Refresh the post list
+      setRefreshTrigger((prev) => prev + 1); // Trigger a refresh after posting
     } catch (error) {
       console.error("Error creating post:", error);
     }
@@ -110,7 +133,7 @@ export default function Home() {
 
   return (
     <MainContainer>
-      <Title>NEAR Social Posts</Title>
+      <Title>Social Feed</Title>
       {signedAccountId ? (
         <>
           <PostForm onSubmit={createPost} />
