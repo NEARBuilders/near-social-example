@@ -1,16 +1,36 @@
 import { useState, useEffect, useContext } from "react";
 import { Social } from "@builddao/near-social-js";
-
-import Form from "@/components/Form";
+import PostForm from "@/components/PostForm";
+import PostFeed from "@/components/PostFeed";
 import SignIn from "@/components/SignIn";
-import styles from "@/styles/app.module.css";
-
 import { NearContext } from "@/context";
+import styled from "styled-components";
+import { NetworkId, SocialContractAccountId } from "@/config";
+
+const MainContainer = styled.main`
+  padding: 20px;
+  font-family: Arial, sans-serif;
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  color: #333;
+`;
+
+const FeedContainer = styled.div`
+  max-width: 600px;
+  margin: 0 auto;
+`;
 
 export default function Home() {
   const { signedAccountId, wallet } = useContext(NearContext);
-  const [name, setName] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [nearAccount, setNearAccount] = useState(null);
+
+  const client = new Social({
+    contractId: SocialContractAccountId,
+    network: NetworkId,
+  });
 
   useEffect(() => {
     const fetchNearAccount = async () => {
@@ -21,29 +41,53 @@ export default function Home() {
         console.error("Error fetching NEAR account:", error);
       }
     };
-
     if (wallet) {
       fetchNearAccount();
     }
   }, [wallet]);
 
-  const client = new Social({
-    contractId: "v1.social08.testnet",
-    network: "testnet",
-  });
+  useEffect(() => {
+    fetchPosts();
+  }, [signedAccountId]);
 
-  const setProfile = async (name) => {
+  const fetchPosts = async () => {
+    // First, use index to get the list of posts
+    const indexResult = await client.index({
+      action: "post",
+      key: "main",
+      limit: 20,
+      order: "desc",
+    });
+
+    // Prepare keys for get request
+    const keys = indexResult.map((item) => `${item.accountId}/post/main`);
+
+    // Now, use get to fetch the actual post content
+    const getResult = await client.get({
+      keys: keys,
+    });
+
+    // Process the results into a more usable format
+    const processedPosts = indexResult.map((item) => ({
+      accountId: item.accountId,
+      blockHeight: item.blockHeight,
+      content: getResult[item.accountId]?.post?.main || "Content not available",
+    }));
+
+    setPosts(processedPosts);
+  };
+
+  const createPost = async (content) => {
     if (!nearAccount) {
       console.error("NEAR account not available");
       return;
     }
-
     try {
       const transaction = await client.set({
         data: {
           [signedAccountId]: {
-            profile: {
-              name: name,
+            post: {
+              main: content,
             },
           },
         },
@@ -52,82 +96,37 @@ export default function Home() {
           accountID: nearAccount.accountId,
         },
       });
-
-      // Transform the actions before passing to signAndSendTransaction
-      // Social.set gives us Transaction, where as wallet only accepts Actions and the formats
-      // of actions are different, so we wrote this transform function for now to handle this.
-      // This need was just identified during this example, this helper function will be included
-      // in next release of the NSJS.
       const transformedActions = transformActions(transaction.actions);
-
+      console.log(transformedActions);
       await wallet.signAndSendTransaction({
-        contractId: "v1.social08.testnet",
+        contractId: SocialContractAccountId,
         actions: transformedActions,
       });
+      fetchPosts(); // Refresh the post list
     } catch (error) {
-      console.error("Error setting profile:", error);
+      console.error("Error creating post:", error);
     }
-  };
-
-  useEffect(() => {
-    getProfileName().then((name) => setName(name));
-  }, []);
-
-  const getProfileName = async () => {
-    const result = await client.get({
-      keys: [signedAccountId + "/profile/name"],
-    });
-    // Extract the name from the result object
-    return result[signedAccountId]?.profile?.name || "";
-  };
-
-  // ... (in the component body)
-  useEffect(() => {
-    if (signedAccountId) {
-      getProfileName().then((fetchedName) => setName(fetchedName));
-    }
-  }, [signedAccountId]);
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-    const { fieldset, name } = e.target.elements;
-    fieldset.disabled = true;
-    console.log("name from form", name.value);
-    await setProfile(name.value);
-    // Get updated profile Name
-    const nameOnChain = await getProfileName();
-    setName(nameOnChain);
-    name.value = "";
-    fieldset.disabled = false;
-    name.focus();
   };
 
   return (
-    <main className={styles.main}>
-      <div className="container">
-        <h1>📖 NEAR Social Example</h1>
-        {signedAccountId ? (
-          <Form onSubmit={onSubmit} currentAccountId={signedAccountId} />
-        ) : (
+    <MainContainer>
+      <Title>NEAR Social Posts</Title>
+      {signedAccountId ? (
+        <>
+          <PostForm onSubmit={createPost} />
+          <PostFeed posts={posts} />
+        </>
+      ) : (
+        <FeedContainer>
           <SignIn />
-        )}
-      </div>
-      {name && (
-        <div className="container">
-          <h2 className="my-4">Current Name</h2>
-          <div className={`card mb-3`}>
-            <div className="card-body">
-              <p className="card-text">{name}</p>
-            </div>
-          </div>
-        </div>
+          <PostFeed posts={posts} />
+        </FeedContainer>
       )}
-    </main>
+    </MainContainer>
   );
 }
 
-//Helper function to transform Actions retruend by Social JS transaction to be use by wallet.
+// Helper function to transform Actions
 const transformActions = (actions) => {
   return actions.map((action) => ({
     type: "FunctionCall",

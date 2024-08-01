@@ -5,11 +5,11 @@ import { NearContext } from "@/context";
 import { Navigation } from "@/components/Navigation";
 
 import { Wallet } from "@/wallets/near";
-import { NetworkId } from "@/config";
+import { NetworkId, SocialContractAccountId } from "@/config";
 
 const wallet = new Wallet({
-  createAccessKeyFor: "v1.social08.testnet",
-  networkId: NetworkId,
+  createAccessKeyFor: SocialContractAccountId,
+  networkId: NetworkId, //by default testnet, choose mainnet for working feed
 });
 
 export default function MyApp({ Component, pageProps }) {

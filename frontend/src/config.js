@@ -1,7 +1,7 @@
 const contractPerNetwork = {
-  testnet: "guestbook.near-examples.testnet",
+  testnet: "v1.social08.testnet",
+  mainnet: "social.near",
 };
 
-export const NetworkId = "testnet";
-export const GuestbookNearContract = contractPerNetwork[NetworkId];
-export const SocialContractAccountId = "v1.social08.testnet";
+export const NetworkId = process.env.NEXT_PUBLIC_NETWORK;
+export const SocialContractAccountId = contractPerNetwork[NetworkId];
