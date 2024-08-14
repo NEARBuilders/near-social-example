@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { Social } from "@builddao/near-social-js";
+import { transformActions } from "@builddao/near-social-js";
 import PostForm from "@/components/PostForm";
 import PostFeed from "@/components/PostFeed";
 import SignIn from "@/components/SignIn";
@@ -120,7 +121,9 @@ export default function Home() {
         },
       });
 
+      //const transformedActions = transformActions(transaction.actions);
       const transformedActions = transformActions(transaction.actions);
+      console.log(transformedActions);
       await wallet.signAndSendTransaction({
         contractId: SocialContractAccountId,
         actions: transformedActions,
@@ -133,7 +136,6 @@ export default function Home() {
 
   return (
     <MainContainer>
-      <Title>Social Feed</Title>
       {signedAccountId ? (
         <>
           <PostForm onSubmit={createPost} />
@@ -150,14 +152,14 @@ export default function Home() {
 }
 
 // Helper function to transform Actions
-const transformActions = (actions) => {
-  return actions.map((action) => ({
-    type: "FunctionCall",
-    params: {
-      methodName: action.functionCall.methodName,
-      args: action.functionCall.args,
-      gas: action.functionCall.gas,
-      deposit: action.functionCall.deposit,
-    },
-  }));
-};
+// const transformActions = (actions) => {
+//   return actions.map((action) => ({
+//     type: "FunctionCall",
+//     params: {
+//       methodName: action.functionCall.methodName,
+//       args: action.functionCall.args,
+//       gas: action.functionCall.gas,
+//       deposit: action.functionCall.deposit,
+//     },
+//   }));
+// };

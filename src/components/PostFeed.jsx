@@ -1,18 +1,13 @@
 // components/PostFeed.js
 import Post from "./Post";
-import styled from "styled-components";
-
-const FeedContainer = styled.div`
-  max-width: 600px;
-  margin: 0 auto;
-`;
+import { ContentContainer } from './SharedStyles';
 
 export default function PostFeed({ posts }) {
   return (
-    <FeedContainer>
+    <ContentContainer>
       {posts.map((post, index) => (
         <Post key={index} post={post} />
       ))}
-    </FeedContainer>
+    </ContentContainer>
   );
 }

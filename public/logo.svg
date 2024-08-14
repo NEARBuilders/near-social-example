@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#A7C7E7;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C8A2C8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <circle cx="100" cy="100" r="90" fill="url(#grad1)" />
+  
+  <!-- Central node (user) -->
+  <circle cx="100" cy="100" r="12" fill="white">
+    <animate attributeName="r" values="12;14;12" dur="4s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Direct connections -->
+  <line x1="100" y1="100" x2="60" y2="70" stroke="white" stroke-width="2">
+    <animate attributeName="x2" values="60;55;60" dur="7s" repeatCount="indefinite" />
+    <animate attributeName="y2" values="70;65;70" dur="7s" repeatCount="indefinite" />
+  </line>
+  <line x1="100" y1="100" x2="150" y2="60" stroke="white" stroke-width="2">
+    <animate attributeName="x2" values="150;155;150" dur="6s" repeatCount="indefinite" />
+    <animate attributeName="y2" values="60;55;60" dur="6s" repeatCount="indefinite" />
+  </line>
+  <line x1="100" y1="100" x2="140" y2="130" stroke="white" stroke-width="2">
+    <animate attributeName="x2" values="140;145;140" dur="8s" repeatCount="indefinite" />
+    <animate attributeName="y2" values="130;135;130" dur="8s" repeatCount="indefinite" />
+  </line>
+  <line x1="100" y1="100" x2="70" y2="140" stroke="white" stroke-width="2">
+    <animate attributeName="x2" values="70;65;70" dur="9s" repeatCount="indefinite" />
+    <animate attributeName="y2" values="140;145;140" dur="9s" repeatCount="indefinite" />
+  </line>
+  
+  <circle cx="60" cy="70" r="8" fill="white">
+    <animate attributeName="cx" values="60;55;60" dur="7s" repeatCount="indefinite" />
+    <animate attributeName="cy" values="70;65;70" dur="7s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="150" cy="60" r="8" fill="white">
+    <animate attributeName="cx" values="150;155;150" dur="6s" repeatCount="indefinite" />
+    <animate attributeName="cy" values="60;55;60" dur="6s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="140" cy="130" r="8" fill="white">
+    <animate attributeName="cx" values="140;145;140" dur="8s" repeatCount="indefinite" />
+    <animate attributeName="cy" values="130;135;130" dur="8s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="70" cy="140" r="8" fill="white">
+    <animate attributeName="cx" values="70;65;70" dur="9s" repeatCount="indefinite" />
+    <animate attributeName="cy" values="140;145;140" dur="9s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Mutual connections -->
+  <line x1="60" y1="70" x2="150" y2="60" stroke="white" stroke-width="1">
+    <animate attributeName="x1" values="60;55;60" dur="7s" repeatCount="indefinite" />
+    <animate attributeName="y1" values="70;65;70" dur="7s" repeatCount="indefinite" />
+    <animate attributeName="x2" values="150;155;150" dur="6s" repeatCount="indefinite" />
+    <animate attributeName="y2" values="60;55;60" dur="6s" repeatCount="indefinite" />
+  </line>
+  <line x1="150" y1="60" x2="140" y2="130" stroke="white" stroke-width="1">
+    <animate attributeName="x1" values="150;155;150" dur="6s" repeatCount="indefinite" />
+    <animate attributeName="y1" values="60;55;60" dur="6s" repeatCount="indefinite" />
+    <animate attributeName="x2" values="140;145;140" dur="8s" repeatCount="indefinite" />
+    <animate attributeName="y2" values="130;135;130" dur="8s" repeatCount="indefinite" />
+  </line>
+  <line x1="70" y1="140" x2="140" y2="130" stroke="white" stroke-width="1">
+    <animate attributeName="x1" values="70;65;70" dur="9s" repeatCount="indefinite" />
+    <animate attributeName="y1" values="140;145;140" dur="9s" repeatCount="indefinite" />
+    <animate attributeName="x2" values="140;145;140" dur="8s" repeatCount="indefinite" />
+    <animate attributeName="y2" values="130;135;130" dur="8s" repeatCount="indefinite" />
+  </line>
+</svg>

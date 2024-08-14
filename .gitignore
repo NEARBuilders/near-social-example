@@ -5,8 +5,11 @@
 **/yarn.lock
 **/.tsimp
 
+/.next
+
 # Frontend
 **/dist/
 **/.parcel-cache
+
 
 **.DS_Store

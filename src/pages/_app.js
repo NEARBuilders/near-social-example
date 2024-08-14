@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { ThemeProvider, createGlobalStyle } from 'styled-components';
+import { theme } from '../theme';
 
 import "@/styles/globals.css";
 import { NearContext } from "@/context";
@@ -12,6 +14,13 @@ const wallet = new Wallet({
   networkId: NetworkId, //by default testnet, choose mainnet for working feed
 });
 
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: #F8F7FF; // Dark background
+    color: #FFFFFF; // White text for contrast
+  }
+`;
+
 export default function MyApp({ Component, pageProps }) {
   const [signedAccountId, setSignedAccountId] = useState("");
 
@@ -20,9 +29,12 @@ export default function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
     <NearContext.Provider value={{ wallet, signedAccountId }}>
       <Navigation />
       <Component {...pageProps} />
     </NearContext.Provider>
+    </ThemeProvider>
   );
 }
