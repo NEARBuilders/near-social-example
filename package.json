@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build --profile",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
