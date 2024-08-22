@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { theme } from '../theme';
+import '../styles/globals.css'
 
 import "@/styles/globals.css";
 import { NearContext } from "@/context";
@@ -29,12 +30,9 @@ export default function MyApp({ Component, pageProps }) {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
     <NearContext.Provider value={{ wallet, signedAccountId }}>
       <Navigation />
       <Component {...pageProps} />
     </NearContext.Provider>
-    </ThemeProvider>
   );
 }
