@@ -80,12 +80,18 @@ export default function Home() {
           }
 
           return {
+            item: {
+              type: "social",
+              path: `${item.accountId}/post/main`,
+              blockHeight: item.blockHeight,
+            },
             accountId: item.accountId,
             blockHeight: item.blockHeight,
             content: parsedContent.text || "No content available",
           };
         }),
       );
+
 
       setPosts(processedPosts);
     } catch (error) {

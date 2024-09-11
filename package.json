@@ -21,9 +21,9 @@
     "bootstrap-icons": "^1.11.3",
     "lucide-react": "^0.416.0",
     "near-api-js": "^4.0.3",
-    "next": "14.2.3",
-    "react": "^18",
-    "react-dom": "^18",
+    "next": "14.2.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-markdown": "^9.0.1",
     "styled-components": "^6.1.12"
   },
